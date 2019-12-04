@@ -10,21 +10,26 @@ videoextensions = ['mp4', 'm4a', 'm4v', 'f4v', 'f4a',
                    'mkv', 'flv', 'avi']
 Episodes = []
 player_path = r"C:\\Program Files\\DAUM\\PotPlayer\\PotPlayerMini64.exe"
-watchdir = r"E:\\Stuff\\Netflix"
+basewatchdir = r"E:\\Stuff\\Netflix"
 
 if sys.platform == 'linux':
     connector = '/'
 elif sys.platform == 'win32':
     connector = r'\\'
-    
 
 movieorseries = str(input('Do you want to watch a movie or series? '))
-categories = str(input('If you further categories your watchables'
-                       ' enter your prefered category today: '))
-# add either movieorseries or categories to choose between them or both
 
-watchdir = watchdir + connector + movieorseries + connector + categories
-
+while True:
+    categories = str(input('If you further categorize your watchables'
+                           ' enter your prefered category today: '))
+    # add either movieorseries or categories to choose between them or both
+    watchdir = basewatchdir + connector + movieorseries + connector + categories
+    if os.path.exists(watchdir):
+        break
+    else:
+        watchdir = basewatchdir + connector + movieorseries + connector
+        print(watchdir)
+        print('\n The category ({}) you have entered does not exists \n'.format(categories))
 items = []
 # try:
 for foldername, subfolders, filenames in os.walk(watchdir):
@@ -63,16 +68,16 @@ for item in things:
         show.remove(item)
 pprint.pprint(show)
 
-s = 0
-while s <= 3:
+
+while True:
     favoured = str(input(("Here are the shows present Please"
                           " pick the name of the show you want to watch : ")))
     if favoured in show:
         watchdir2 = watchdir + connector + favoured
         break
     else:
-        print("Please enter the correct show you have three more tries")
-    s = s + 1
+        print("\n{} is not in the list.Please enter a show in the list.\n".format(favoured))
+
 
 for dirpath, subdirs, files in os.walk(watchdir2):
     for file in files:
