@@ -39,4 +39,3 @@ elif len(sys.argv) == 2:
         if editor.poll() is not None:
             print('running script :) ....')
             pyrun = subprocess.Popen([python_path, pathandfile])
-
