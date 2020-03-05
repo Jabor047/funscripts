@@ -1,3 +1,4 @@
+# Illustrates how python trees work using a mathematical experisson and implemets one
 class expression():
     pass
 
@@ -7,7 +8,7 @@ class Times(expression):
         self.r = r
         
     def __str__(self):
-        return str(self.l) + '*' + str(self.r)
+        return '(' + str(self.l) + '*' + str(self.r) + ')'
     
     def eval(self, env):
         return self.l.eval(env) * self.r.eval(env)
@@ -19,7 +20,7 @@ class Plus(expression):
         self.r = r
     
     def __str__(self):
-        return str(self.l) + '+' + str(self.r)
+        return '(' + str(self.l) + '+' + str(self.r) + ')'
     
     def eval(self, env):
         return self.l.eval(env) + self.r.eval(env)
@@ -47,9 +48,9 @@ class Var(expression):
         return env[self.name]
 
 e1 = Times(Const(3), Plus(Var('y'), Var('x')))
-e2 = Plus(Const(3), Times(Var('y', Var('x'))))
+e2 = Plus(Times(Var('y'),Const(3)),  Var('x'))
 env = {'x':2, 'y':4}
 print(e1)
 print(e2)
-e1.eval(env)
-e2.eval(env)
+print(e1.eval(env))
+print(e2.eval(env))
